@@ -21,12 +21,12 @@ const items = [
     {
         title: "Calendar",
         url: "/calendar",
-        icon: Inbox,
+        icon: Calendar,
     },
     {
         title: "Nig",
         url: "#",
-        icon: Calendar,
+        icon: Settings,
     },
     {
         title: "Search",

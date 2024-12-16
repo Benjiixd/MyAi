@@ -1,12 +1,23 @@
+import React from "react";
+import Day from "./components/day";
 
+export default function Home() {
+    let date = new Date();
 
-export default function calendar() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <p> i hate niggers </p>
-      </main>
-      
-    </div>
-  );
+    let dates = [date];
+
+    // Add the next 6 days
+    for (let i = 1; i <= 6; i++) {
+        let nextDate = new Date(date);
+        nextDate.setDate(date.getDate() + i);
+        dates.push(nextDate);
+    }
+
+    return (
+        <div className="flex items-center justify-center min-h-screen">
+            {dates.map((date, index) => (
+                <Day key={index} date={date} />
+            ))}
+        </div>
+    );
 }
