@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react"
+import { Calendar, Home, Settings, ShoppingBasket, HeartPulse, GraduationCap, Cloud, CircleUser, Wallet } from "lucide-react"
 
 import {
     Sidebar,
@@ -9,7 +9,11 @@ import {
     SidebarMenu,
     SidebarMenuButton,
     SidebarMenuItem,
+    SidebarFooter,
 } from "@/components/ui/sidebar"
+
+import { ChevronUp, User2 } from "lucide-react"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 // Menu items.
 const items = [
@@ -24,14 +28,29 @@ const items = [
         icon: Calendar,
     },
     {
-        title: "Nig",
-        url: "#",
-        icon: Settings,
+        title: "Shopping",
+        url: "/shopping",
+        icon: ShoppingBasket,
     },
     {
-        title: "Search",
+        title: "Finance",
+        url: "/finance",
+        icon: Wallet,
+    },
+    {
+        title: "Health(food, exercise, meditation, sleep)",
         url: "#",
-        icon: Search,
+        icon: HeartPulse,
+    },
+    {
+        title: "Studies",
+        url: "#",
+        icon: GraduationCap,
+    },
+    {
+        title: "Cloud",
+        url: "#",
+        icon: Cloud,
     },
     {
         title: "Settings",
@@ -62,6 +81,34 @@ export function AppSidebar() {
                     </SidebarGroupContent>
                 </SidebarGroup>
             </SidebarContent>
+            <SidebarFooter>
+                <SidebarMenu>
+                    <SidebarMenuItem>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <SidebarMenuButton>
+                                    <User2 /> Username
+                                    <ChevronUp className="ml-auto" />
+                                </SidebarMenuButton>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                                side="top"
+                                className="w-[--radix-popper-anchor-width]"
+                            >
+                                <DropdownMenuItem>
+                                    <span>Account</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <span>Billing</span>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <span>Sign out</span>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    </SidebarMenuItem>
+                </SidebarMenu>
+            </SidebarFooter>
         </Sidebar>
     )
 }
