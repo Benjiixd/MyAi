@@ -1,3 +1,4 @@
+"use client"
 import { Calendar, Home, Settings, ShoppingBasket, HeartPulse, GraduationCap, Cloud, CircleUser, Wallet } from "lucide-react"
 
 import {
@@ -10,10 +11,14 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
     SidebarFooter,
-} from "@/components/ui/sidebar"
+    SidebarMenuSub,
+    SidebarMenuSubItem,
 
-import { ChevronUp, User2 } from "lucide-react"
+} from "@/components/ui/sidebar"
+import React from "react"
+import { ChevronUp, ChevronDown, User2 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 
 // Menu items.
 const items = [
@@ -41,6 +46,13 @@ const items = [
         title: "Health(food, exercise, meditation, sleep)",
         url: "#",
         icon: HeartPulse,
+        group: true,
+        children: [
+            { title: "Food", url: "#food", icon: CircleUser },
+            { title: "Exercise", url: "#exercise", icon: CircleUser },
+            { title: "Meditation", url: "#meditation", icon: CircleUser },
+            { title: "Sleep", url: "#sleep", icon: CircleUser },
+        ],
     },
     {
         title: "Studies",
@@ -68,15 +80,34 @@ export function AppSidebar() {
                     <SidebarGroupContent>
                         <SidebarMenu>
                             {items.map((item) => (
-                                <SidebarMenuItem key={item.title}>
-                                    <SidebarMenuButton asChild>
-                                        <a href={item.url}>
-                                            <item.icon />
-                                            <span>{item.title}</span>
-                                        </a>
-                                    </SidebarMenuButton>
-                                </SidebarMenuItem>
+                                item.group ? (
+                                    <CollapsibleSidebarMenuItem key={item.title} item={item} />
+                                ) : (
+                                    <SidebarMenuItem key={item.title}>
+                                        <SidebarMenuButton asChild>
+                                            <a href={item.url}>
+                                                <item.icon />
+                                                <span>{item.title}</span>
+                                            </a>
+                                        </SidebarMenuButton>
+                                    </SidebarMenuItem>
+                                )
                             ))}
+
+                            {/* TODO: FIX THIS SO IT LOOKS NICER THAN RN */}
+                            <Collapsible defaultOpen className="group/collapsible">
+                                <SidebarMenuItem key="test">
+                                    <CollapsibleTrigger asChild>
+                                        <SidebarMenuButton />
+                                    </CollapsibleTrigger>
+                                    <CollapsibleContent>
+                                        <SidebarMenuSub>
+                                            <SidebarMenuSubItem />
+                                        </SidebarMenuSub>
+                                    </CollapsibleContent>
+                                </SidebarMenuItem>
+                            </Collapsible>
+
                         </SidebarMenu>
                     </SidebarGroupContent>
                 </SidebarGroup>
@@ -111,4 +142,34 @@ export function AppSidebar() {
             </SidebarFooter>
         </Sidebar>
     )
+}
+
+function CollapsibleSidebarMenuItem({ item }) {
+    const [isOpen, setIsOpen] = React.useState(false);
+
+    return (
+        <div>
+            <SidebarMenuButton asChild onClick={() => setIsOpen(!isOpen)}>
+                <div>
+                    <item.icon />
+                    {item.title}
+                    {isOpen ? <ChevronUp /> : <ChevronDown />}
+                </div>
+            </SidebarMenuButton>
+            {isOpen && (
+                <div>
+                    {item.children.map((child) => (
+                        <SidebarMenuItem key={child.title}>
+                            <SidebarMenuButton asChild>
+                                <a href={child.url}>
+                                    <child.icon />
+                                    {child.title}
+                                </a>
+                            </SidebarMenuButton>
+                        </SidebarMenuItem>
+                    ))}
+                </div>
+            )}
+        </div>
+    );
 }
