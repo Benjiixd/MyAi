@@ -1,11 +1,15 @@
 "use client"
 
 import { Scheduler } from "@aldabil/react-scheduler";
+import { Fullscreen } from "lucide-react";
+import { useEffect, useState } from "react";
+import React from "react";
 
 export default function CalendarPage()  {
   return (
-    <div>
+    <div className="flex flex-col items-center justify-center min-h-screen py-2">
           <Scheduler
+
               view="month"
               events={[
                   {
@@ -20,8 +24,20 @@ export default function CalendarPage()  {
                       start: new Date("2021/5/4 10:00"),
                       end: new Date("2021/5/4 11:00"),
                   },
+                  {
+                      event_id: 3,
+                      title: "tove",
+                      start: new Date("2024/12/23 00:00"),
+                      end: new Date("2024/12/24 00:01"),
+                  },
               ]}
           />
+          <div className="flex h-1000 w-1000 bg-red-500">
+          </div>
     </div>
+    
+    
+    
+    
   );
 };
