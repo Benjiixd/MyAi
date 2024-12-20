@@ -11,6 +11,7 @@ export function CalendarComponent() {
             <Scheduler
 
                 view="month"
+                height={840}
                 events={[
                     {
                         event_id: 1,

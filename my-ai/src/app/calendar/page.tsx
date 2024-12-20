@@ -6,6 +6,7 @@ import { TextareaForm } from "./input.tsx";
 import { CheckboxReactHookFormMultiple } from "./checks.tsx";
 import { Card } from "@/components/ui/card";
 import { ModeToggle } from "@/components/mode-toggle";
+import "./styles.css"; // Import the CSS file
 
 export default function CalendarPage() {
     return (
@@ -13,7 +14,9 @@ export default function CalendarPage() {
             <ModeToggle />
             {/* Left Half */}
             <Card className="w-1/2  flex items-center justify-center">
-                <CalendarComponent />
+                <div className="w-full ">
+                    <CalendarComponent/>
+                </div>
             </Card>
 
             {/* Right Half */}
