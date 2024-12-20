@@ -50,7 +50,7 @@ export function TextareaForm() {
                             <FormControl>
                                 <Textarea
                                     placeholder="Explain your upcoming plan..."
-                                    className="resize-none"
+                                    className="resize-none text-black"
                                     {...field}
                                 />
                             </FormControl>
