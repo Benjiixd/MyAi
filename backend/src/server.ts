@@ -1,9 +1,30 @@
+import http from "http";
 import { app } from "./app";
 
-const port = app.get("port");
+const port = normalizePort(process.env.PORT || "3000");
+app.set("port", port);
 
-const server = app.listen(port, onListening);
+const server = http.createServer(app);
+
+server.listen(port);
 server.on("error", onError);
+server.on("listening", onListening);
+
+function normalizePort(val: string) {
+    const port = parseInt(val, 10);
+
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
+
+    if (port >= 0) {
+        // port number
+        return port;
+    }
+
+    return false;
+}
 
 function onError(error: NodeJS.ErrnoException) {
     if (error.syscall !== "listen") {
@@ -29,9 +50,12 @@ function onError(error: NodeJS.ErrnoException) {
 
 function onListening() {
     const addr = server.address();
-    const bind =
-        typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
-    console.log(`Listening on ${bind}`);
+    if (addr !== null) {
+        const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
+        console.log(`Listening on ${bind}`);
+    } else {
+        console.error("Server address is null");
+    }
 }
 
 export default server;

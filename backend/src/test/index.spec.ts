@@ -9,7 +9,7 @@ describe("GET /", () => {
 
     it("should return Welcome to Express", (done) => {
         return request(app).get("/")
-            .end(function(err, res) {
+            .end(function(err: Error, res : request.Response) {
                 expect(res.text).toContain("Welcome to Express");
                 done();
             });
