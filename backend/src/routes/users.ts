@@ -4,3 +4,4 @@ import * as controller from "../controllers/users";
 export const users = Router();
 
 users.get("/", controller.index);
+users.post("/", controller.create);
