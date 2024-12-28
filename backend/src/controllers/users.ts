@@ -12,7 +12,7 @@ export const index = async (req: Request, res: Response): Promise<void> => {
 
 export const create = async (req: Request, res: Response): Promise<void> => {
     const { name, email } = req.body;
-    console.log(name, email);
+    
     try {
         const newUser = await prisma.user.create({
             data: { name, email },
