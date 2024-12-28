@@ -6,32 +6,31 @@ import { useEffect, useState } from "react";
 import React from "react";
 
 export function CalendarComponent() {
+    const [events, setEvents] = useState<[]>([]);
+    useEffect(() => {
+        fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/calendar/get`)
+            .then((res) => res.json())
+            .then((data) => {
+                // Convert events to the format expected by Scheduler
+                const formattedEvents = data.map((event) => ({
+                    event_id: event.id, // Adjust based on your backend response
+                    title: event.title,
+                    start: new Date(event.start),
+                    end: new Date(event.end),
+                }));
+                setEvents(formattedEvents);
+                console.log(formattedEvents);
+            });
+    }, []);
+
+
     return (
         
             <Scheduler
 
                 view="month"
                 height={840}
-                events={[
-                    {
-                        event_id: 1,
-                        title: "Event 1",
-                        start: new Date("2021/5/2 09:30"),
-                        end: new Date("2021/5/2 10:30"),
-                    },
-                    {
-                        event_id: 2,
-                        title: "Event 2",
-                        start: new Date("2021/5/4 10:00"),
-                        end: new Date("2021/5/4 11:00"),
-                    },
-                    {
-                        event_id: 3,
-                        title: "tove",
-                        start: new Date("2024/12/23 00:00"),
-                        end: new Date("2024/12/24 00:01"),
-                    },
-                ]}
+                events={events}
             />
           
         

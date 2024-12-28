@@ -1,6 +1,7 @@
 import express from "express";
 import logger from "morgan";
 import * as path from "path";
+import cors from "cors";
 
 import { errorHandler, errorNotFoundHandler } from "./middlewares/errorHandler";
 
@@ -19,6 +20,7 @@ app.set("view engine", "pug");
 app.use(logger("dev"));
 app.use(express.json()); // Add this line to parse JSON request bodies
 app.use(express.urlencoded({ extended: false })); // Add this line to parse URL-encoded request bodies
+app.use(cors());
 
 app.use(express.static(path.join(__dirname, "../public")));
 app.use("/index", index);

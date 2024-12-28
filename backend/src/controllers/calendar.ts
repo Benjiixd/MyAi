@@ -43,3 +43,8 @@ export const create = async (req: Request, res: Response): Promise<void> => {
         }
     }
 }
+
+export const getAll = async (req: Request, res: Response): Promise<void> => {
+    const events = await prisma.event.findMany();
+    res.json(events);
+}
