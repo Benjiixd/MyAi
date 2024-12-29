@@ -7,6 +7,7 @@ import React from "react";
 
 export function CalendarComponent() {
     const [events, setEvents] = useState<[]>([]);
+    const [todaysEvents, setTodaysEvents] = useState<[]>([]);
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/calendar/get`)
             .then((res) => res.json())
@@ -18,6 +19,11 @@ export function CalendarComponent() {
                     start: new Date(event.start),
                     end: new Date(event.end),
                 }));
+                for (let i = 0; i < formattedEvents.length; i++) {
+                    if (formattedEvents[i].start.getDate() === new Date().getDate()) {
+                        setTodaysEvents((prev) => [...prev, formattedEvents[i]]);
+                    }
+                }
                 setEvents(formattedEvents);
                 console.log(formattedEvents);
             });
@@ -38,6 +44,7 @@ export function CalendarComponent() {
          * ....extra other fields depend on your custom fields/editor properties
          */
         // Simulate http request: return added/edited event
+        // TODO: Fix so it doesnt fail
         return new Promise((res, rej) => {
             if (action === "edit") {
                 /** PUT event to remote DB */
@@ -56,7 +63,7 @@ export function CalendarComponent() {
                 
             }
 
-            const isFail = Math.random() > 0.6;
+            const isFail = 0;
             // Make it slow just for testing
             setTimeout(() => {
                 if (isFail) {
