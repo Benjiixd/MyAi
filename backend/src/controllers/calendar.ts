@@ -1,5 +1,13 @@
 import { Request, Response } from "express";
 import prisma from '../prisma';
+import openai from 'openai';
+
+if (!process.env.OPENAI_API_KEY) {
+    throw new Error("OPENAI_API_KEY environment variable is not set.");
+}
+
+
+const openAi = new openai({ apiKey: process.env.OPENAI_API_KEY });
 
 /**
  * GET /
@@ -23,7 +31,7 @@ export const create = async (req: Request, res: Response): Promise<void> => {
     start = new Date(start);
     end = new Date(end);
 
-    
+
 
     // Check if dates are valid
     if (isNaN(start.getTime()) || isNaN(end.getTime())) {
@@ -47,4 +55,20 @@ export const create = async (req: Request, res: Response): Promise<void> => {
 export const getAll = async (req: Request, res: Response): Promise<void> => {
     const events = await prisma.event.findMany();
     res.json(events);
+}
+
+export const generateNewWithAi = async (req: Request, res: Response): Promise<void> => {
+    const completion = await openAi.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: [
+            { role: "system", content: "You are a helpful assistant." },
+            {
+                role: "user",
+                content: "Write a haiku about recursion in programming.",
+            },
+        ],
+    });
+
+    console.log(completion.choices[0].message);
+    res.json({ message: completion.choices[0].message.content });
 }
