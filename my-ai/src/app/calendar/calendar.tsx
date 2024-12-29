@@ -26,6 +26,7 @@ export function CalendarComponent() {
                 }
                 setEvents(formattedEvents);
                 console.log(formattedEvents);
+                console.log(todaysEvents);
             });
     }, []);
 
