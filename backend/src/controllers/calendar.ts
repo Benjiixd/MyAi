@@ -58,17 +58,55 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
 }
 
 export const generateNewWithAi = async (req: Request, res: Response): Promise<void> => {
-    const completion = await openAi.chat.completions.create({
-        model: "gpt-4o-mini",
-        messages: [
-            { role: "system", content: "You are a helpful assistant." },
-            {
-                role: "user",
-                content: "Write a haiku about recursion in programming.",
-            },
-        ],
-    });
+    const thread = await openAi.beta.threads.create();
 
-    console.log(completion.choices[0].message);
-    res.json({ message: completion.choices[0].message.content });
+    
+
+    const message = await openAi.beta.threads.messages.create(
+        thread.id,
+        {
+            role: "user",
+            content: "29/12-2024 13:30, in one week i have a test at 17 o clock, can you add 5 study sessions to my calendar before then?"
+        }
+    );
+    let run = await openAi.beta.threads.runs.createAndPoll(
+        thread.id,
+        {
+            assistant_id: "asst_l1xQ0Z4P8BHv1QLHLrYOxQmS",
+            instructions: "29/12-2024 13:30, in one week i have a test at 17 o clock, can you add 5 study sessions to my calendar before then?"
+        }
+    );
+
+    const messages = await openAi.beta.threads.messages.list(
+        thread.id
+    );
+
+    if (run.status === 'completed') {
+        const messages = await openAi.beta.threads.messages.list(
+            run.thread_id
+        );
+        for (const message of messages.data.reverse()) {
+            console.log(`${message.role} > ${message.content[0].text.value}`);
+        }
+    } else {
+        console.log(run.status);
+    }
+
+
+    for (const message of messages.data.reverse()) {
+        if (message.role === "assistant") {
+            const content = message.content[0].text.value;
+            console.log("FINAL:", content)
+        }
+    }
+        
+    
+
+    
+    
+    
+    
+    
+
+    res.json({ thread, message, run });
 }
