@@ -59,15 +59,15 @@ export const getAll = async (req: Request, res: Response): Promise<void> => {
 
 export const generateNewWithAi = async (req: Request, res: Response): Promise<void> => {
     const thread = await openAi.beta.threads.create();
-
-    
-
+    const currentDate = new Date();
+    const instructions = req.body.request + " " + currentDate.toISOString();
+    console.log("INSTRUCTIONS:", instructions);
     
     let run = await openAi.beta.threads.runs.createAndPoll(
         thread.id,
         {
             assistant_id: "asst_l1xQ0Z4P8BHv1QLHLrYOxQmS",
-            instructions: req.body.request,
+            instructions: instructions,
         }
     );
 
@@ -75,19 +75,10 @@ export const generateNewWithAi = async (req: Request, res: Response): Promise<vo
         thread.id
     );
 
-    if (run.status === 'completed') {
-        const messages = await openAi.beta.threads.messages.list(
-            run.thread_id
-        );
-        for (const message of messages.data.reverse()) {
-            console.log(`${message.role} > ${message.content[0].text.value}`);
-        }
-    } else {
-        console.log(run.status);
-    }
-
+    
 
     for (const message of messages.data.reverse()) {
+        console.log(`${message.role} > ${message.content[0].text.value}`);
         if (message.role === "assistant") {
             let content = message.content[0].text.value;
             content = JSON.parse(content)
