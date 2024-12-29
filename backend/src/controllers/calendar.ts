@@ -95,7 +95,8 @@ export const generateNewWithAi = async (req: Request, res: Response): Promise<vo
 
     for (const message of messages.data.reverse()) {
         if (message.role === "assistant") {
-            const content = message.content[0].text.value;
+            let content = message.content[0].text.value;
+            content = JSON.parse(content)
             console.log("FINAL:", content)
         }
     }
