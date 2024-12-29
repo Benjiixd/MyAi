@@ -62,18 +62,12 @@ export const generateNewWithAi = async (req: Request, res: Response): Promise<vo
 
     
 
-    const message = await openAi.beta.threads.messages.create(
-        thread.id,
-        {
-            role: "user",
-            content: "29/12-2024 13:30, in one week i have a test at 17 o clock, can you add 5 study sessions to my calendar before then?"
-        }
-    );
+    
     let run = await openAi.beta.threads.runs.createAndPoll(
         thread.id,
         {
             assistant_id: "asst_l1xQ0Z4P8BHv1QLHLrYOxQmS",
-            instructions: "29/12-2024 13:30, in one week i have a test at 17 o clock, can you add 5 study sessions to my calendar before then?"
+            instructions: req.body.request,
         }
     );
 
@@ -109,5 +103,5 @@ export const generateNewWithAi = async (req: Request, res: Response): Promise<vo
     
     
 
-    res.json({ thread, message, run });
+    res.json({ thread, messages, run });
 }

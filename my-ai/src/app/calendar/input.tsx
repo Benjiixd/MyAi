@@ -18,13 +18,13 @@ import {
 import { Textarea } from "@/components/ui/textarea"
 
 const FormSchema = z.object({
-    bio: z
+    request: z
         .string()
         .min(10, {
-            message: "Bio must be at least 10 characters.",
+            message: "Request must be at least 10 characters.",
         })
         .max(160, {
-            message: "Bio must not be longer than 30 characters.",
+            message: "Request must not be longer than 30 characters.",
         }),
 })
 
@@ -33,8 +33,14 @@ export function TextareaForm() {
         resolver: zodResolver(FormSchema),
     })
 
-    function onSubmit(data: z.infer<typeof FormSchema>) {
-        console.log(data)
+    async function onSubmit(data: z.infer<typeof FormSchema>) {
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/calendar/generatenewwithai`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(data),
+        })
         
     }
 
@@ -43,14 +49,14 @@ export function TextareaForm() {
             <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
                 <FormField
                     control={form.control}
-                    name="bio"
+                    name="request"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>New plan</FormLabel>
                             <FormControl>
                                 <Textarea
                                     placeholder="Explain your upcoming plan..."
-                                    className="resize-none text-black"
+                                    className="resize-none text-white"
                                     {...field}
                                 />
                             </FormControl>
