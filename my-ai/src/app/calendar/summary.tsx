@@ -1,9 +1,11 @@
 import React from "react";
 
-export async function Summary( {todaysEvents} ) {
+export function Summary( {todaysEvents} ) {
     console.log(todaysEvents);
+    const test = todaysEvents.map((event) => { return {title: event.title, start: event.start, end: event.end}});
+    console.log(test);
     
-    await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/calendar/createSummary`, {
+    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/calendar/createSummary`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -16,6 +18,7 @@ export async function Summary( {todaysEvents} ) {
             console.log(data);
         });
     
+   
 
 
     return (

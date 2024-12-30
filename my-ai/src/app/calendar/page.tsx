@@ -10,7 +10,7 @@ import { ModeToggle } from "@/components/mode-toggle";
 import "./styles.css";
 
 export default function CalendarPage() {
-     const [todaysEvents, setTodaysEvents] = useState();
+     const [todaysEvents, setTodaysEvents] = useState([]);
 
     return (
         <div className="flex h-screen">
