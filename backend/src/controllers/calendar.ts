@@ -99,7 +99,7 @@ export const createSummary = async (req: Request, res: Response): Promise<void> 
     let run = await openAi.beta.threads.runs.createAndPoll(
         thread.id,
         {
-            assistant_id: "asst_l1xQ0Z4P8BHv1QLHLrYOxQmS",
+            assistant_id: "asst_AwE0sFi9ScJZs5Po60fKDQ9C",
             instructions: instructions,
         }
     );

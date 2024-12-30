@@ -1,39 +1,56 @@
 "use client"
 
 import { Scheduler } from "@aldabil/react-scheduler";
-import { Fullscreen } from "lucide-react";
 import { useEffect, useState } from "react";
 import React from "react";
 
-export function CalendarComponent() {
+export function CalendarComponent( {setTodaysEvents} ) {
     const [events, setEvents] = useState<[]>([]);
-    const [todaysEvents, setTodaysEvents] = useState<[]>([]);
+    interface event {
+        id: string;
+        title: string;
+        start: Date;
+        end: Date;
+    }
     useEffect(() => {
         fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/calendar/get`)
             .then((res) => res.json())
             .then((data) => {
                 // Convert events to the format expected by Scheduler
-                const formattedEvents = data.map((event) => ({
+                const formattedEvents = data.map((event:event) => ({
                     event_id: event.id, // Adjust based on your backend response
                     title: event.title,
                     start: new Date(event.start),
                     end: new Date(event.end),
                 }));
+
+                
+                    
+                console.log("THIS YEAR: " + new Date().getFullYear());
+                const todaysEvents:event[] = [];
                 for (let i = 0; i < formattedEvents.length; i++) {
-                    if (formattedEvents[i].start.getDate() === new Date().getDate()) {
-                        setTodaysEvents((prev) => [...prev, formattedEvents[i]]);
+                    console.log(formattedEvents[i].start.getFullYear());
+                    
+                    if ((formattedEvents[i].start.getFullYear() == new Date().getFullYear()) && (formattedEvents[i].start.getMonth() == new Date().getMonth()) && (formattedEvents[i].start.getDate() == new Date().getDate())) {
+
+                        todaysEvents.push(formattedEvents[i]);
                     }
                 }
+                const todaysEventsString =
                 setEvents(formattedEvents);
+                setTodaysEvents(todaysEventsString);
                 console.log(formattedEvents);
                 console.log(todaysEvents);
-            });
+                
+            }
+            );
     }, []);
 
     const handleConfirm = async (
-        event: ProcessedEvent,
-        action: EventActions
-    ): Promise<ProcessedEvent> => {
+        event: event,
+        action: string
+    ): Promise<Event> => {
+        
         console.log("handleConfirm =", action, event.title);
 
         /**
