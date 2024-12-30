@@ -91,6 +91,7 @@ export const generateNewWithAi = async (req: Request, res: Response): Promise<vo
 
 export const createSummary = async (req: Request, res: Response): Promise<void> => {
     const { text } = req.body;
+    console.log("RUNNING AI SUMMARY")
     const thread = await openAi.beta.threads.create();
     const currentDate = new Date();
     const instructions = text + " " + currentDate.toISOString();

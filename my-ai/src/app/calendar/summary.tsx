@@ -1,9 +1,9 @@
 import React from "react";
 
-export function Summary( {todaysEvents} ) {
+export async function Summary( {todaysEvents} ) {
     console.log(todaysEvents);
     
-    fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/calendar/createSummary`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/calendar/createSummary`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
