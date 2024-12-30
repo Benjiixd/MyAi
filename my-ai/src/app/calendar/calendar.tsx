@@ -26,19 +26,17 @@ export function CalendarComponent( {setTodaysEvents} ) {
 
                 
                     
-                console.log("THIS YEAR: " + new Date().getFullYear());
                 const todaysEvents:event[] = [];
                 for (let i = 0; i < formattedEvents.length; i++) {
-                    console.log(formattedEvents[i].start.getFullYear());
                     
                     if ((formattedEvents[i].start.getFullYear() == new Date().getFullYear()) && (formattedEvents[i].start.getMonth() == new Date().getMonth()) && (formattedEvents[i].start.getDate() == new Date().getDate())) {
 
                         todaysEvents.push(formattedEvents[i]);
                     }
                 }
-                const todaysEventsString =
+                
                 setEvents(formattedEvents);
-                setTodaysEvents(todaysEventsString);
+                setTodaysEvents(todaysEvents);
                 console.log(formattedEvents);
                 console.log(todaysEvents);
                 

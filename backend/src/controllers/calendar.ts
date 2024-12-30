@@ -112,7 +112,7 @@ export const createSummary = async (req: Request, res: Response): Promise<void> 
         console.log(`${message.role} > ${message.content[0].text.value}`);
         if (message.role === "assistant") {
             let content = message.content[0].text.value;
-            content = JSON.parse(content)
+ 
             console.log("FINAL:", content)
         }
     }

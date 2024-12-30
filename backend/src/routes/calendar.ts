@@ -7,3 +7,4 @@ calendar.get("/", controller.index);
 calendar.post("/create", controller.create);
 calendar.get("/get", controller.getAll);
 calendar.post("/generateNewWithAi", controller.generateNewWithAi);
+calendar.post("/createSummary", controller.createSummary);
