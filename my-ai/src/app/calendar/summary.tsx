@@ -1,11 +1,10 @@
 import React, { useEffect } from "react";
 
-export function Summary( {todaysEvents} ) {
+export function Summary() {
     
-    const test = todaysEvents
-    console.log("test" + test);
-    
+    /*
     useEffect(() => {
+        
         if (todaysEvents.length > 0) {
             fetch(`${process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001"}/calendar/createSummary`, {
                 method: "POST",
@@ -21,7 +20,7 @@ export function Summary( {todaysEvents} ) {
                 });
         }
     }, []);
-    
+    */
    
 
 
