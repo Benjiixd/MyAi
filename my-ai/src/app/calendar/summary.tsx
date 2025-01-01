@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 
 export function Summary( {todaysEvents} ) {
-    console.log(todaysEvents);
-    const test = todaysEvents.map((event) => { return {title: event.title, start: event.start, end: event.end}});
+    
+    const test = todaysEvents
     console.log("test" + test);
     
     useEffect(() => {
@@ -20,7 +20,7 @@ export function Summary( {todaysEvents} ) {
                     console.log(data);
                 });
         }
-    }, [todaysEvents]);
+    }, []);
     
    
 
