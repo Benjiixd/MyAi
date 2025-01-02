@@ -90,11 +90,12 @@ export const generateNewWithAi = async (req: Request, res: Response): Promise<vo
 
 
 export const createSummary = async (req: Request, res: Response): Promise<void> => {
+    console.log(req.body)
     const { text } = req.body;
     console.log("RUNNING AI SUMMARY")
     const thread = await openAi.beta.threads.create();
     const currentDate = new Date();
-    const instructions = text + " " + currentDate.toISOString();
+    const instructions = JSON.stringify(req.body) + " " + currentDate.toISOString();
     console.log("INSTRUCTIONS:", instructions);
     
     let run = await openAi.beta.threads.runs.createAndPoll(
@@ -115,7 +116,8 @@ export const createSummary = async (req: Request, res: Response): Promise<void> 
             let content = message.content[0].text.value;
  
             console.log("FINAL:", content)
+            res.json({content});
         }
     }
-    res.json({ thread, messages, run });
+    
 }
