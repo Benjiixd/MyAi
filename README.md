@@ -1,2 +1,2 @@
 # MyAi
-MyAi, all in one ai for normies
+MyAi, ai made for non-technical users that integrates into your personal life seemlesly.
